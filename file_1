@@ -1,4 +1,4 @@
-import os			#для паузы после отладки
+import os			# для паузы после отладки
 class proizvodstvo:
     def __init__(self,time,stanky,nakleyki):
         self.tm=time
@@ -31,4 +31,4 @@ a3 = proizvodstvo(3,3,350)
 print (a3.kpd())
 print (a3.vypolnenye())
 print ()
-os.system("pause")					#пауза после отладки
+os.system("pause")					# пауза после отладки
