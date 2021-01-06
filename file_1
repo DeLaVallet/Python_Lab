@@ -1,0 +1,34 @@
+import os			#для паузы после отладки
+class proizvodstvo:
+    def __init__(self,time,stanky,nakleyki):
+        self.tm=time
+        self.st=stanky
+        self.nk=nakleyki
+    def __return__(self):
+        return "\n Количество станков = {} \n Время печати наклейки = {} \n  Количество напечатанных наклеек = {}".format (self.st,self.tm,self.nk)
+    def display_info(self):
+        print("Количество станков:",self.st)
+        print("Время печати наклейки:",self.tm)
+        print("Количество заказов:",self.nk)
+    def kpd(self):
+        self.kpd= (60*8) // self.tm * self.st
+        return "\n Количество наклеек с печатью %s минут на %s станках в день - %s шт." % (self.tm,self.st,self.kpd)
+    def vypolnenye(self):
+        self.kpd= (60*8) // self.tm * self.st
+        if self.kpd==self.nk:
+            return "\n Заказ на %s шт. будет выполнен" % (self.nk)
+        if self.kpd>self.nk:
+            return "\n Заказ на %s шт. будет перевыполнен. Будет готово %s шт." % (self.nk,self.kpd)
+        else:
+            return "\n Заказ на %s шт. будет не выполнен. Будет готово %s шт." % (self.nk,self.kpd)
+a1 = proizvodstvo(5,3,288)
+print (a1.kpd())
+print (a1.vypolnenye())
+a2 = proizvodstvo(8,3,250)
+print (a2.kpd())
+print (a2.vypolnenye())
+a3 = proizvodstvo(3,3,350)
+print (a3.kpd())
+print (a3.vypolnenye())
+print ()
+os.system("pause")					#пауза после отладки
