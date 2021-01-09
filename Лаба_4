@@ -82,7 +82,14 @@ conn.commit()
 print(cursor.fetchall())
 print ("\n\nИзначальнное значение после UPDATE:\n")
 
+sqlupdate="""UPDATE Predpriyatie SET time = '10', stanky = '6', nakleyki = '1000' WHERE name = 'Posle Avtomatization' """
+cursor.execute(sqlupdate)
+conn.commit()
 
+sql = "SELECT * FROM Predpriyatie"
+cursor.execute(sql)
+conn.commit()
+print(cursor.fetchall())
 
 print ("\n\nМетоды считывания и записи:\n")
 
