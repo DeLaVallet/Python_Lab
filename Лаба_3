@@ -1,0 +1,58 @@
+import csv
+import os			#для паузы после отладки
+class proizvodstvo:
+    def __init__(self,time,stanky,nakleyki):
+        self.tm = time
+        self.st = stanky
+        self.nk = nakleyki
+        self.data_csv_dict = []
+        self.data_csv_list = []
+
+    def display_info(self):
+        print("Количество станков:",self.st)
+        print("Время печати наклейки:",self.tm)
+        print("Количество заказов:",self.nk)
+
+    def kpd(self):
+        self.kpd= (60*8) // self.tm * self.st
+        return "\n Количество наклеек с печатью %s минут на %s станках в день - %s шт." % (self.tm,self.st,self.kpd)
+    def vypolnenye(self):
+        self.kpd= (60*8) // self.tm * self.st
+        if self.kpd==self.nk:
+            return "\n Заказ на %s шт. будет выполнен" % (self.nk)
+        if self.kpd>self.nk:
+            return "\n Заказ на %s шт. будет перевыполнен. Будет готово %s шт." % (self.nk,self.kpd)
+        else:
+            return "\n Заказ на %s шт. будет не выполнен. Будет готово %s шт." % (self.nk,self.kpd)
+
+    def read_csv_v1(self, filename):
+        with open(filename) as file:
+            reader = csv.DictReader(file, delimiter=';')
+            for row in reader:
+                self.data_csv_dict.append(row)
+            print(self.data_csv_dict)
+
+    def read_csv_v2(self, filename):
+        with open(filename) as file:
+            reader = csv.reader(file, delimiter=';')
+            for row in reader:
+                self.data_csv_list.append(row)
+            print(self.data_csv_list)
+
+
+a1 = proizvodstvo(5,3,288)
+a1.read_csv_v1('3_лаба_file_1.csv')
+a1.read_csv_v2('3_лаба_file_1.csv')
+
+a2 = proizvodstvo(8,3,250)
+a2.read_csv_v1('3_лаба_file_2.csv')  
+a2.read_csv_v2('3_лаба_file_2.csv')
+
+a1 = proizvodstvo(5,3,288)
+print (a1.kpd())
+print (a1.vypolnenye())
+a2 = proizvodstvo(8,3,250)
+print (a2.kpd())
+print (a2.vypolnenye())
+print ()
+os.system("pause")					#пауза после отладки
