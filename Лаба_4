@@ -1,0 +1,97 @@
+import csv
+import os			#для паузы после отладки
+import sqlite3
+
+conn=sqlite3.connect("database.db") #База даных
+cursor=conn.cursor()
+
+class proizvodstvo:
+    def __init__(self,time,stanky,nakleyki):
+        self.tm = time
+        self.st = stanky
+        self.nk = nakleyki
+        self.data_csv_dict = []
+        self.data_csv_list = []
+
+    def display_info(self):
+        print("Количество станков:",self.st)
+        print("Время печати наклейки:",self.tm)
+        print("Количество заказов:",self.nk)
+
+    def kpd(self):
+        self.kpd= (60*8) // self.tm * self.st
+        return "\n Количество наклеек с печатью %s минут на %s станках в день - %s шт." % (self.tm,self.st,self.kpd)
+    def vypolnenye(self):
+        self.kpd= (60*8) // self.tm * self.st
+        if self.kpd==self.nk:
+            return "\n Заказ на %s шт. будет выполнен" % (self.nk)
+        if self.kpd>self.nk:
+            return "\n Заказ на %s шт. будет перевыполнен. Будет готово %s шт." % (self.nk,self.kpd)
+        else:
+            return "\n Заказ на %s шт. будет не выполнен. Будет готово %s шт." % (self.nk,self.kpd)
+
+    def read_csv_v1(self, filename):
+        with open(filename) as file:
+            reader = csv.DictReader(file, delimiter=';')
+            for row in reader:
+                self.data_csv_dict.append(row)
+            print(self.data_csv_dict)
+
+    def read_csv_v2(self, filename):
+        with open(filename) as file:
+            reader = csv.reader(file, delimiter=';')
+            for row in reader:
+                self.data_csv_list.append(row)
+            print(self.data_csv_list)
+
+    def write_csv_v1(self, filename):
+        fieldnames = []
+        for data in self.data_csv_dict:
+            for field in data:
+                fieldnames.append(field)
+
+        with open(filename, 'w') as file:
+            writer = csv.DictWriter(file, delimiter=';', fieldnames=fieldnames)
+            writer.writeheader()
+            for row in self.data_csv_dict:
+                writer.writerow(row)
+
+    def write_csv_v2(self, filename):
+        with open(filename, 'w') as file:
+            writer = csv.writer(file, delimiter=';')
+            for row in self.data_csv_list:
+                writer.writerow(row)
+
+print ("Изначальнные значения:\n")
+cursor.execute("""CREATE TABLE Predpriyatie (name text, time integer, stanky integer, nakleyki integer) """)
+Predpriyatie = [('Pered Avtomatization', '5','3','288'),('Posle Avtomatization','5','3','500')]
+cursor.executemany("INSERT INTO Predpriyatie VALUES (?,?,?,?)", Predpriyatie)
+
+sql = "SELECT * FROM Predpriyatie"
+cursor.execute(sql)
+conn.commit()
+print(cursor.fetchmany(1)) #берём не более 1 первых записей
+
+
+
+print ("\n\nМетоды считывания и записи:\n")
+
+a1 = proizvodstvo(5,3,288)
+a1.read_csv_v1('3_лаба_file_1.csv')
+a1.read_csv_v2('3_лаба_file_1.csv')
+a1.write_csv_v1('metod_1_save1.csv')
+a1.write_csv_v2('metod_1_save2.csv')
+a2 = proizvodstvo(8,3,250)
+a2.read_csv_v1('3_лаба_file_2.csv')  
+a2.read_csv_v2('3_лаба_file_2.csv')
+a2.write_csv_v2('metod_2_save1.csv')
+a2.write_csv_v1('metod_2_save2.csv')
+print ()
+a1 = proizvodstvo(5,3,288)
+print (a1.kpd())
+print (a1.vypolnenye())
+a2 = proizvodstvo(8,3,250)
+print (a2.kpd())
+print (a2.vypolnenye())
+print ()
+os.system("pause")					#пауза после отладки 
