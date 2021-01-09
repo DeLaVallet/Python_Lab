@@ -39,15 +39,34 @@ class proizvodstvo:
                 self.data_csv_list.append(row)
             print(self.data_csv_list)
 
+    def write_csv_v1(self, filename):
+        fieldnames = []
+        for data in self.data_csv_dict:
+            for field in data:
+                fieldnames.append(field)
+
+        with open(filename, 'w') as file:
+            writer = csv.DictWriter(file, delimiter=';', fieldnames=fieldnames)
+            writer.writeheader()
+            for row in self.data_csv_dict:
+                writer.writerow(row)
+
+    def write_csv_v2(self, filename):
+        with open(filename, 'w') as file:
+            writer = csv.writer(file, delimiter=';')
+            for row in self.data_csv_list:
+                writer.writerow(row)
 
 a1 = proizvodstvo(5,3,288)
 a1.read_csv_v1('3_лаба_file_1.csv')
 a1.read_csv_v2('3_лаба_file_1.csv')
-
+a1.write_csv_v1('metod_1_save1.csv')
+a1.write_csv_v2('metod_1_save2.csv')
 a2 = proizvodstvo(8,3,250)
 a2.read_csv_v1('3_лаба_file_2.csv')  
 a2.read_csv_v2('3_лаба_file_2.csv')
-
+a2.write_csv_v2('metod_2_save1.csv')
+a2.write_csv_v1('metod_2_save2.csv')
 a1 = proizvodstvo(5,3,288)
 print (a1.kpd())
 print (a1.vypolnenye())
