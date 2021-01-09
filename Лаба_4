@@ -72,6 +72,16 @@ cursor.execute(sql)
 conn.commit()
 print(cursor.fetchmany(1)) #берём не более 1 первых записей
 
+sqldelete="""DELETE FROM Predpriyatie WHERE name = 'Pered Avtomatization' """
+cursor.execute(sqldelete)
+conn.commit()
+
+sql = "SELECT * FROM Predpriyatie"
+cursor.execute(sql)
+conn.commit()
+print(cursor.fetchall())
+print ("\n\nИзначальнное значение после UPDATE:\n")
+
 
 
 print ("\n\nМетоды считывания и записи:\n")
