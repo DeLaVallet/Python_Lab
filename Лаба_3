@@ -74,4 +74,4 @@ a2 = proizvodstvo(8,3,250)
 print (a2.kpd())
 print (a2.vypolnenye())
 print ()
-os.system("pause")					#пауза после отладки
+os.system("pause")					#пауза после отладки 
